@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Socialert</string>
+    <string name="form_register_title">REGÍSTRATE</string>
+    <string name="form_login_title">INICIAR SESIÓN</string>
+    <string name="form_personal_data_title">Datos personales</string>
+    <string name="form_user_data_title">Datos de usuario</string>
+    <string name="app_version">Socialert v1.0</string>
 </resources>
