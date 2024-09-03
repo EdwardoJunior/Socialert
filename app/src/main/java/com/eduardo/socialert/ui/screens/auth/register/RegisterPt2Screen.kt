@@ -32,7 +32,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.eduardo.socialert.R
-import com.eduardo.socialert.data.network.request.UserRequest
+import com.eduardo.socialert.data.model.request.UserRequest
 import com.eduardo.socialert.navigation.AppScreens
 import com.eduardo.socialert.ui.components.CButton
 import com.eduardo.socialert.ui.components.CFormHeader

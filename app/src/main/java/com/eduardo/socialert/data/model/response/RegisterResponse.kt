@@ -1,4 +1,4 @@
-package com.eduardo.socialert.data.network.response
+package com.eduardo.socialert.data.model.response
 
 data class RegisterResponse (
     val status : Int,

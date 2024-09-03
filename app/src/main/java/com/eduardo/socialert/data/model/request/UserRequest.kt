@@ -1,4 +1,4 @@
-package com.eduardo.socialert.data.network.request
+package com.eduardo.socialert.data.model.request
 
 data class UserRequest(
     val email : String,

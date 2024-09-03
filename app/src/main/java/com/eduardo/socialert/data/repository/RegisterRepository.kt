@@ -1,13 +1,13 @@
 package com.eduardo.socialert.data.repository
 
 import com.eduardo.socialert.data.network.RegisterApiService
-import com.eduardo.socialert.data.network.request.UserRequest
-import com.eduardo.socialert.data.network.response.RegisterResponse
+import com.eduardo.socialert.data.model.request.UserRequest
+import com.eduardo.socialert.data.model.response.RegisterResponse
 
 class RegisterRepository (
     private val registerApiService: RegisterApiService
 ){
-    suspend fun registerUser(userRequest: UserRequest) : RegisterResponse{
+    suspend fun registerUser(userRequest: UserRequest) : RegisterResponse {
         val response = registerApiService.registerUser(userRequest)
         if(response.isSuccessful){
             return response.body() ?: throw Exception("Error al obtener la respuesta")

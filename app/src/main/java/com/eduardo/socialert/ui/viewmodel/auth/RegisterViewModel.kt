@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eduardo.socialert.data.network.RetrofitClient
-import com.eduardo.socialert.data.network.request.UserRequest
-import com.eduardo.socialert.data.network.response.RegisterResponse
+import com.eduardo.socialert.data.model.request.UserRequest
+import com.eduardo.socialert.data.model.response.RegisterResponse
 import com.eduardo.socialert.data.repository.RegisterRepository
 import kotlinx.coroutines.launch
 

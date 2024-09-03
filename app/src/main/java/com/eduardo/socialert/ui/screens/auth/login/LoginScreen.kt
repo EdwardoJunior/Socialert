@@ -1,5 +1,6 @@
 package com.eduardo.socialert.ui.screens.auth.login
 
+import android.content.Context
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,10 +10,12 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,9 +40,16 @@ import com.eduardo.socialert.ui.components.CLinkedText
 import com.eduardo.socialert.ui.components.CTextError
 import com.eduardo.socialert.ui.components.CTextField
 import com.eduardo.socialert.ui.viewmodel.auth.LoginFormViewModel
+import com.eduardo.socialert.ui.viewmodel.auth.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, loginFormViewModel: LoginFormViewModel) {
+fun LoginScreen(
+    navController: NavController,
+    loginFormViewModel: LoginFormViewModel,
+    authViewModel: LoginViewModel,
+    context: Context,
+    token: String?
+) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val scrollState = rememberScrollState()
 
@@ -58,7 +68,7 @@ fun LoginScreen(navController: NavController, loginFormViewModel: LoginFormViewM
 //        verticalArrangement = Arrangement.Center
     ) {
         ContentHeader()
-        ContentBody(navController, loginFormViewModel)
+        ContentBody(navController, loginFormViewModel, authViewModel, context, token)
     }
 }
 
@@ -70,10 +80,17 @@ private fun ContentHeader() {
 }
 
 @Composable
-private fun ContentBody(navController: NavController, loginFormViewModel: LoginFormViewModel) {
+private fun ContentBody(
+    navController: NavController,
+    loginFormViewModel: LoginFormViewModel,
+    authViewModel: LoginViewModel,
+    context: Context,
+    token: String?
+) {
     var showPassword by remember { mutableStateOf(false) }
     var showMessagesError by remember { mutableStateOf(false) }
-
+    val errorMessage = authViewModel.errorMessage.value
+    val isLoading = authViewModel.isLoading.value
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -121,14 +138,56 @@ private fun ContentBody(navController: NavController, loginFormViewModel: LoginF
         Spacer(Modifier.height(40.dp))
         CButton(
             onClick = {
+
+
                 if (loginFormViewModel.validateLoginForm()) {
-                    navController.navigate(route = AppScreens.HomeScreen.route)
+                    authViewModel.loginUser(
+                        loginFormViewModel.email,
+                        loginFormViewModel.password,
+                        context
+                    )
+                    println("Desde v ${authViewModel.loginResponse.value?.message}")
+
                 } else {
                     showMessagesError = true
                 }
+
+//                LaunchedEffect(errorMessage) {
+
+//                }
             },
+
             text = "Ingresar"
         )
+
+        if (isLoading) {
+            CircularProgressIndicator()
+        }
+
+        LaunchedEffect(errorMessage, isLoading) {
+            if (!isLoading && (authViewModel.loginResponse.value?.message == "login exitoso")) {
+                navController.navigate(AppScreens.HomeScreen.route)
+            }
+        }
+
+//        authViewModel.loginResponse.value?.let {
+//            if (!isLoading && it.access_token?.isNotBlank() == true) {
+//                println(it.message)
+////                Toast.makeText(context, "Cierre de sesión exitoso", Toast.LENGTH_LONG).show()
+//
+//                navController.navigate(AppScreens.HomeScreen.route)
+//            }
+//        }
+
+//        authViewModel.errorMessage.value?.let {
+//            CTextError(errorText = it)
+//        }
+//
+//        LaunchedEffect(errorMessage, isLoading) {
+//            if (errorMessage.isNullOrEmpty() && !isLoading) {
+//                navController.navigate(AppScreens.HomeScreen.route)
+//            }
+//        }
 
 //        val registerResponse = registerViewModel.registerResponse.value
 //        LaunchedEffect(registerResponse) {
