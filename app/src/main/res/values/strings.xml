@@ -5,4 +5,18 @@
     <string name="form_personal_data_title">Datos personales</string>
     <string name="form_user_data_title">Datos de usuario</string>
     <string name="app_version">Socialert v1.0</string>
+    <string name="email_label">Correo electrónico</string>
+    <string name="password_label">Contraseña</string>
+    <string name="login_button_text">Ingresar</string>
+    <string name="no_account_question">¿Aún no tienes cuenta?</string>
+    <string name="name_label">Nombres</string>
+    <string name="lastname_label">Apellidos</string>
+    <string name="phoneNumber_label">Número de teléfono</string>
+    <string name="curp_label">CURP</string>
+    <string name="next_button_text">Siguiente</string>
+    <string name="go_to_login_link">¿Ya tienes una cuenta?</string>
+    <string name="repeat_password_label">Confirmar contraseña</string>
+    <string name="validate_empty_fields">Por favor, llena todos los campos correctamente.</string>
+    <string name="register_button_text">Registrarse</string>
+    <string name="go_back_link">Regresar</string>
 </resources>

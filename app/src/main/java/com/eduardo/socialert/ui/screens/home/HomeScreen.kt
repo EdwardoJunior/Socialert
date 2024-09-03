@@ -18,8 +18,7 @@ import com.eduardo.socialert.ui.viewmodel.auth.LoginViewModel
 fun HomeScreen(
     navController: NavController,
     authViewModel: LoginViewModel,
-    context: Context,
-    token: String?
+    context: Context
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),

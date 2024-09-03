@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -22,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -36,6 +34,7 @@ import com.eduardo.socialert.R
 import com.eduardo.socialert.navigation.AppScreens
 import com.eduardo.socialert.ui.components.CButton
 import com.eduardo.socialert.ui.components.CFormHeader
+import com.eduardo.socialert.ui.components.CIcon
 import com.eduardo.socialert.ui.components.CLinkedText
 import com.eduardo.socialert.ui.components.CTextError
 import com.eduardo.socialert.ui.components.CTextField
@@ -47,8 +46,7 @@ fun LoginScreen(
     navController: NavController,
     loginFormViewModel: LoginFormViewModel,
     authViewModel: LoginViewModel,
-    context: Context,
-    token: String?
+    context: Context
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val scrollState = rememberScrollState()
@@ -65,10 +63,9 @@ fun LoginScreen(
             .padding(40.dp)
             .imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
-//        verticalArrangement = Arrangement.Center
     ) {
         ContentHeader()
-        ContentBody(navController, loginFormViewModel, authViewModel, context, token)
+        ContentBody(navController, loginFormViewModel, authViewModel, context)
     }
 }
 
@@ -85,7 +82,6 @@ private fun ContentBody(
     loginFormViewModel: LoginFormViewModel,
     authViewModel: LoginViewModel,
     context: Context,
-    token: String?
 ) {
     var showPassword by remember { mutableStateOf(false) }
     var showMessagesError by remember { mutableStateOf(false) }
@@ -98,7 +94,7 @@ private fun ContentBody(
         CTextField(
             value = loginFormViewModel.email,
             onValueChange = { loginFormViewModel.email = it },
-            label = "Correo electrónico",
+            label = stringResource(id = R.string.email_label),
             isError = loginFormViewModel.emailError.isNotEmpty(),
             keyboardType = KeyboardType.Email
         )
@@ -109,19 +105,17 @@ private fun ContentBody(
         CTextField(
             value = loginFormViewModel.password,
             onValueChange = { loginFormViewModel.password = it },
-            label = "Contraseña",
+            label = stringResource(id = R.string.password_label),
             isError = loginFormViewModel.passwordError.isNotEmpty(),
             trailingIcon = {
                 IconButton(onClick = { showPassword = !showPassword }) {
-                    Icon(
-                        if (showPassword) {
+                    CIcon(
+                        painter = if (showPassword) {
                             painterResource(id = R.drawable.eye_slash_regular)
                         } else {
                             painterResource(id = R.drawable.eye_regular)
                         },
-                        contentDescription = "",
-                        modifier = Modifier.height(20.dp),
-                        tint = Color(0XFF2C5FAA)
+                        contentDescription = "show password icon"
                     )
                 }
             },
@@ -135,33 +129,26 @@ private fun ContentBody(
         if (showMessagesError) {
             CTextError(loginFormViewModel.passwordError)
         }
+
         Spacer(Modifier.height(40.dp))
-        CButton(
-            onClick = {
-
-
-                if (loginFormViewModel.validateLoginForm()) {
-                    authViewModel.loginUser(
-                        loginFormViewModel.email,
-                        loginFormViewModel.password,
-                        context
-                    )
-                    println("Desde v ${authViewModel.loginResponse.value?.message}")
-
-                } else {
-                    showMessagesError = true
-                }
-
-//                LaunchedEffect(errorMessage) {
-
-//                }
-            },
-
-            text = "Ingresar"
-        )
 
         if (isLoading) {
             CircularProgressIndicator()
+        } else {
+            CButton(
+                onClick = {
+                    if (loginFormViewModel.validateLoginForm()) {
+                        authViewModel.loginUser(
+                            loginFormViewModel.email,
+                            loginFormViewModel.password,
+                            context
+                        )
+                    } else {
+                        showMessagesError = true
+                    }
+                },
+                text = stringResource(id = R.string.login_button_text),
+            )
         }
 
         LaunchedEffect(errorMessage, isLoading) {
@@ -170,39 +157,10 @@ private fun ContentBody(
             }
         }
 
-//        authViewModel.loginResponse.value?.let {
-//            if (!isLoading && it.access_token?.isNotBlank() == true) {
-//                println(it.message)
-////                Toast.makeText(context, "Cierre de sesión exitoso", Toast.LENGTH_LONG).show()
-//
-//                navController.navigate(AppScreens.HomeScreen.route)
-//            }
-//        }
-
-//        authViewModel.errorMessage.value?.let {
-//            CTextError(errorText = it)
-//        }
-//
-//        LaunchedEffect(errorMessage, isLoading) {
-//            if (errorMessage.isNullOrEmpty() && !isLoading) {
-//                navController.navigate(AppScreens.HomeScreen.route)
-//            }
-//        }
-
-//        val registerResponse = registerViewModel.registerResponse.value
-//        LaunchedEffect(registerResponse) {
-//            registerResponse?.let {
-//                if(it.status == 1){
-//                    navController.navigate("login_screen?message=Registro%20exitoso")
-//                }
-//            }
-//        }
-
-
         Spacer(Modifier.height(10.dp))
         CLinkedText(
             { navController.navigate(route = AppScreens.RegisterPt1Screen.route) },
-            text = "¿Aun no tienes una cuenta?",
+            text = stringResource(id = R.string.no_account_question),
             style = MaterialTheme.typography.bodyMedium
         )
     }

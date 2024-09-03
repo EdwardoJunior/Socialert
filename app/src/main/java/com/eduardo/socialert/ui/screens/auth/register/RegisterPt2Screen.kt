@@ -91,7 +91,7 @@ private fun ContentBody(
         CTextField(
             value = formsInfoViewModel.email,
             onValueChange = { formsInfoViewModel.email = it },
-            label = "Correo electrónico",
+            label = stringResource(id = R.string.email_label),
             isError = formsInfoViewModel.emailError.isNotEmpty(),
             keyboardType = KeyboardType.Email
         )
@@ -99,10 +99,11 @@ private fun ContentBody(
             CTextError(formsInfoViewModel.emailError)
         }
         Spacer(Modifier.height(20.dp))
+
         CTextField(
             value = formsInfoViewModel.password,
             onValueChange = { formsInfoViewModel.password = it },
-            label = "Contraseña",
+            label = stringResource(id = R.string.password_label),
             isError = formsInfoViewModel.passwordError.isNotEmpty(),
             trailingIcon = {
                 IconButton(onClick = { showPassword = !showPassword }) {
@@ -112,7 +113,7 @@ private fun ContentBody(
                         } else {
                             painterResource(id = R.drawable.eye_regular)
                         },
-                        contentDescription = "",
+                        contentDescription = "show_password",
                         modifier = Modifier.height(20.dp),
                         tint = Color(0XFF2C5FAA)
                     )
@@ -129,10 +130,11 @@ private fun ContentBody(
             CTextError(formsInfoViewModel.passwordError)
         }
         Spacer(Modifier.height(20.dp))
+
         CTextField(
             value = formsInfoViewModel.repeatPassword,
             onValueChange = { formsInfoViewModel.repeatPassword = it },
-            label = "Repetir contraseña",
+            label = stringResource(id = R.string.repeat_password_label),
             isError = formsInfoViewModel.repeatPasswordError.isNotEmpty(),
             trailingIcon = {
                 IconButton(onClick = { showPasswordRepeat = !showPasswordRepeat }) {
@@ -166,7 +168,7 @@ private fun ContentBody(
                 formsInfoViewModel.repeatPassword.isNotBlank()
 
         if (!isFormValid) {
-            CTextWarning(warningText = "Por favor llena todos los campos correctamente.")
+            CTextWarning(warningText = stringResource(id = R.string.validate_empty_fields))
         }
         Spacer(Modifier.height(10.dp))
 
@@ -186,7 +188,7 @@ private fun ContentBody(
                 navController.navigate(route = AppScreens.LoginScreen.route)
             },
             enabled = isFormValid,
-            text = "Registrarse"
+            text = stringResource(id = R.string.register_button_text)
         )
 
         val context = LocalContext.current
@@ -203,7 +205,7 @@ private fun ContentBody(
         Spacer(Modifier.height(10.dp))
         CLinkedText(
             { navController.navigate(route = AppScreens.RegisterPt1Screen.route) },
-            text = "Regresar",
+            text = stringResource(id = R.string.go_back_link),
             style = MaterialTheme.typography.bodyMedium
         )
     }

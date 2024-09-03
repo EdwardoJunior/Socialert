@@ -36,8 +36,6 @@ fun AppNavigation() {
         } else {
             AppScreens.LoginScreen.route
         }
-
-//        startDestination = AppScreens.LoginScreen.route
     ) {
 
         composable(route = AppScreens.RegisterPt1Screen.route) {
@@ -47,10 +45,10 @@ fun AppNavigation() {
             RegisterPt2Screen(navController, formsInfoViewModel, registerViewModel)
         }
         composable(route = AppScreens.LoginScreen.route) {
-            LoginScreen(navController, loginFormViewModel, authViewModel, context, token)
+            LoginScreen(navController, loginFormViewModel, authViewModel, context)
         }
         composable(route = AppScreens.HomeScreen.route) {
-            HomeScreen(navController, authViewModel, context, token)
+            HomeScreen(navController, authViewModel, context)
         }
     }
 }

@@ -8,20 +8,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.eduardo.socialert.R
@@ -73,7 +69,7 @@ private fun ContentBody(navController: NavController, formsInfoViewModel: FormsI
         CTextField(
             value = formsInfoViewModel.name,
             onValueChange = { formsInfoViewModel.name = it },
-            label = "Nombres",
+            label = stringResource(id = R.string.name_label),
             isError = formsInfoViewModel.nameError.isNotEmpty(),
             keyboardType = KeyboardType.Text,
             capitalization = KeyboardCapitalization.Words
@@ -83,10 +79,11 @@ private fun ContentBody(navController: NavController, formsInfoViewModel: FormsI
             CTextError(formsInfoViewModel.nameError)
         }
         Spacer(Modifier.height(20.dp))
+
         CTextField(
             value = formsInfoViewModel.lastname,
             onValueChange = { formsInfoViewModel.lastname = it },
-            label = "Apellidos",
+            label = stringResource(id = R.string.lastname_label),
             isError = formsInfoViewModel.lastNameError.isNotEmpty(),
             keyboardType = KeyboardType.Text,
             capitalization = KeyboardCapitalization.Words
@@ -95,10 +92,11 @@ private fun ContentBody(navController: NavController, formsInfoViewModel: FormsI
             CTextError(formsInfoViewModel.lastNameError)
         }
         Spacer(Modifier.height(20.dp))
+
         CTextField(
             value = formsInfoViewModel.phoneNumber,
             onValueChange = { formsInfoViewModel.phoneNumber = it },
-            label = "Número de teléfono",
+            label = stringResource(id = R.string.phoneNumber_label),
             isError = formsInfoViewModel.phoneNumberError.isNotEmpty(),
             keyboardType = KeyboardType.Number
         )
@@ -106,10 +104,11 @@ private fun ContentBody(navController: NavController, formsInfoViewModel: FormsI
             CTextError(formsInfoViewModel.phoneNumberError)
         }
         Spacer(Modifier.height(20.dp))
+
         CTextField(
             value = formsInfoViewModel.curp,
             onValueChange = { formsInfoViewModel.curp = it.uppercase() },
-            label = "CURP",
+            label = stringResource(id = R.string.curp_label),
             isError = formsInfoViewModel.curpError.isNotEmpty(),
             keyboardType = KeyboardType.Password,
         )
@@ -134,13 +133,13 @@ private fun ContentBody(navController: NavController, formsInfoViewModel: FormsI
                 navController.navigate(route = AppScreens.RegisterPt2Screen.route)
             },
             enabled = isFormValid,
-            text = "Siguiente",
+            text = stringResource(id = R.string.next_button_text),
         )
 
         Spacer(Modifier.height(10.dp))
         CLinkedText(
             { navController.navigate(route = AppScreens.LoginScreen.route) },
-            text = "¿Ya tienes una cuenta?",
+            text = stringResource(id = R.string.go_to_login_link),
             style = MaterialTheme.typography.bodyMedium
         )
     }
