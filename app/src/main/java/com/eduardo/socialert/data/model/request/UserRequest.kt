@@ -5,7 +5,8 @@ data class UserRequest(
     val password : String,
     val name : String,
     val lastname : String,
-    val phoneNumber : String,
+    val phone : String,
     val curp : String,
+    val gender : String
 
 )

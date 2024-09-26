@@ -1,6 +1,8 @@
 package com.eduardo.socialert.ui.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
@@ -20,17 +22,22 @@ import kotlin.math.sin
 fun CTextField(
     value: String,
     onValueChange: (String) -> Unit = {},
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
+    readOnly : Boolean = false,
     label: String,
     trailingIcon:  @Composable() (() -> Unit)? = null,
     isError : Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardType: KeyboardType = KeyboardType.Text,
+    singleLine : Boolean = true,
+    maxLines : Int = 1,
     capitalization: KeyboardCapitalization = KeyboardCapitalization.None
 ){
     TextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
+        readOnly = readOnly,
         label = {
             Text(label, color = Color(0x80444444))
         },
@@ -38,7 +45,8 @@ fun CTextField(
         isError = isError,
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(capitalization = capitalization, keyboardType = keyboardType),
-        singleLine = true,
+        singleLine = singleLine,
+        maxLines = maxLines,
         shape = RoundedCornerShape(20.dp),
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = Color(0xffEAE1E1),

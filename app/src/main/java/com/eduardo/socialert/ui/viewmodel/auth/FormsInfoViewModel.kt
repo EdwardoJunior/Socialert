@@ -9,6 +9,10 @@ import androidx.lifecycle.ViewModel
 class FormsInfoViewModel : ViewModel() {
     var name by mutableStateOf("")
     var lastname by mutableStateOf("")
+
+    var gender by mutableStateOf("")
+    val genderOptions = listOf(" ", "Masculino", "Femenino", "Prefiero no decirlo")
+
     var curp by mutableStateOf("")
     var phoneNumber by mutableStateOf("")
     var email by mutableStateOf("")
@@ -18,6 +22,7 @@ class FormsInfoViewModel : ViewModel() {
     //VALIDATIONS
     var nameError by mutableStateOf("")
     var lastNameError by mutableStateOf("")
+    var genderError by mutableStateOf("")
     var phoneNumberError by mutableStateOf("")
     var curpError by mutableStateOf("")
     var emailError by mutableStateOf("")
@@ -45,6 +50,11 @@ class FormsInfoViewModel : ViewModel() {
             isValid = false
         } else {
             lastNameError = ""
+        }
+
+        if(gender.isBlank()){
+//            genderError = "Por favor seleccione su género."
+            isValid = false
         }
 
         val trimmedPhoneNumber = phoneNumber.replace(" ", "")
@@ -110,6 +120,17 @@ class FormsInfoViewModel : ViewModel() {
 
         return isValid
     }
+
+    fun cleanFields(){
+        name = ""
+        lastname = ""
+        gender = ""
+        curp = ""
+        phoneNumber = ""
+        email = ""
+        password = ""
+        repeatPassword = ""
+    }
 }
 
 
@@ -148,4 +169,8 @@ class LoginFormViewModel : ViewModel() {
         return isValid
     }
 
+    fun clearCredentialsForm(){
+        email = ""
+        password = ""
+    }
 }

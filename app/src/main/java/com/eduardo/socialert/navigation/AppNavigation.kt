@@ -14,7 +14,11 @@ import com.eduardo.socialert.ui.viewmodel.auth.FormsInfoViewModel
 import com.eduardo.socialert.ui.viewmodel.auth.LoginFormViewModel
 import com.eduardo.socialert.ui.viewmodel.auth.LoginViewModel
 import com.eduardo.socialert.ui.viewmodel.auth.RegisterViewModel
-import com.eduardo.socialert.ui.screens.home.HomeScreen
+import com.eduardo.socialert.ui.screens.home.MenuScreen
+import com.eduardo.socialert.ui.screens.home.reports.ReportRegisterScreen
+import com.eduardo.socialert.ui.viewmodel.report.FormReportRegisterViewModel
+import com.eduardo.socialert.ui.viewmodel.report.RegisterReportViewModel
+import com.eduardo.socialert.ui.viewmodel.report.ReportViewModel
 
 @Composable
 fun AppNavigation() {
@@ -22,7 +26,10 @@ fun AppNavigation() {
     val formsInfoViewModel: FormsInfoViewModel = viewModel()
     val registerViewModel: RegisterViewModel = viewModel()
     val loginFormViewModel: LoginFormViewModel = viewModel()
-    val authViewModel : LoginViewModel = viewModel()
+    val authViewModel: LoginViewModel = viewModel()
+    val reportViewModel: ReportViewModel = viewModel()
+    val formReportRegisterViewModel: FormReportRegisterViewModel = viewModel()
+    val registerReportViewModel: RegisterReportViewModel = viewModel()
 
     val context = LocalContext.current
     val sharedPref = context.getSharedPreferences("MyApp", Context.MODE_PRIVATE)
@@ -32,7 +39,7 @@ fun AppNavigation() {
         navController = navController,
 
         startDestination = if (token != null) {
-            AppScreens.HomeScreen.route
+            AppScreens.MenuScreen.route
         } else {
             AppScreens.LoginScreen.route
         }
@@ -47,8 +54,19 @@ fun AppNavigation() {
         composable(route = AppScreens.LoginScreen.route) {
             LoginScreen(navController, loginFormViewModel, authViewModel, context)
         }
-        composable(route = AppScreens.HomeScreen.route) {
-            HomeScreen(navController, authViewModel, context)
+        composable(route = AppScreens.MenuScreen.route) {
+            MenuScreen(navController, authViewModel, context, registerReportViewModel, formReportRegisterViewModel)
+        }
+        composable(route = AppScreens.ReportRegisterScreen.route) {
+            ReportRegisterScreen(
+                navController,
+                context,
+                reportViewModel,
+                formReportRegisterViewModel,
+                registerReportViewModel
+            )
         }
     }
 }
+
+

@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.eduardo.socialert.R
 import com.eduardo.socialert.navigation.AppScreens
+import com.eduardo.socialert.navigation.MenuScreens
 import com.eduardo.socialert.ui.components.CButton
 import com.eduardo.socialert.ui.components.CFormHeader
 import com.eduardo.socialert.ui.components.CIcon
@@ -133,7 +135,9 @@ private fun ContentBody(
         Spacer(Modifier.height(40.dp))
 
         if (isLoading) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(
+                color = Color(0XFF2C5FAA)
+            )
         } else {
             CButton(
                 onClick = {
@@ -153,7 +157,7 @@ private fun ContentBody(
 
         LaunchedEffect(errorMessage, isLoading) {
             if (!isLoading && (authViewModel.loginResponse.value?.message == "login exitoso")) {
-                navController.navigate(AppScreens.HomeScreen.route)
+                navController.navigate(AppScreens.MenuScreen.route)
             }
         }
 

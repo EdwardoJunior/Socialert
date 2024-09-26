@@ -1,5 +1,6 @@
 package com.eduardo.socialert.ui.screens.auth.register
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,10 +10,20 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -59,8 +70,11 @@ private fun ContentHeader() {
     CFormHeader(subtitle = stringResource(id = R.string.form_personal_data_title))
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ContentBody(navController: NavController, formsInfoViewModel: FormsInfoViewModel) {
+
+    var isExpanded by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -90,6 +104,57 @@ private fun ContentBody(navController: NavController, formsInfoViewModel: FormsI
         )
         if (formsInfoViewModel.lastNameError.isNotEmpty()) {
             CTextError(formsInfoViewModel.lastNameError)
+        }
+        Spacer(Modifier.height(20.dp))
+
+        ExposedDropdownMenuBox(
+            expanded = isExpanded,
+            onExpandedChange = { isExpanded = !isExpanded }
+        ) {
+            CTextField(
+                value = {if(formsInfoViewModel.gender == "M"){
+                    "Masculino"
+                }else if(formsInfoViewModel.gender == "F"){
+                    "Femenino"
+                }else if(formsInfoViewModel.gender == "N"){
+                    "Prefiero no decirlo"
+                } else {
+                    ""
+                }
+                }.toString(),
+                onValueChange = {},
+                readOnly = true,
+                modifier = Modifier.menuAnchor(),
+                label = "Seleccione una opción",
+                isError = formsInfoViewModel.genderError.isNotEmpty(),
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
+            )
+            ExposedDropdownMenu(
+                expanded = isExpanded,
+                onDismissRequest = { isExpanded = false},
+                modifier = Modifier.background(Color(0xffEAE1E1))
+            ) {
+                formsInfoViewModel.genderOptions.forEachIndexed{index, selectedOption ->
+                    if(index != 0) {
+                        DropdownMenuItem(
+                            text = { Text(selectedOption) },
+                            onClick = {
+                                if(selectedOption == "Masculino"){
+                                    formsInfoViewModel.gender = "M"
+                                }else if(selectedOption == "Femenino"){
+                                    formsInfoViewModel.gender = "F"
+                                }else if(selectedOption == "Prefiero no decirlo"){
+                                    formsInfoViewModel.gender = "N"
+                                }
+                                isExpanded = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
+        if (formsInfoViewModel.genderError.isNotEmpty()) {
+            CTextError(formsInfoViewModel.genderError)
         }
         Spacer(Modifier.height(20.dp))
 
@@ -123,7 +188,7 @@ private fun ContentBody(navController: NavController, formsInfoViewModel: FormsI
                 formsInfoViewModel.phoneNumber.isNotBlank() &&
                 formsInfoViewModel.curp.isNotBlank()
 
-        if (!isFormValid){
+        if (!isFormValid) {
             CTextWarning(warningText = "Por favor llena todos los campos correctamente.")
         }
         Spacer(Modifier.height(10.dp))

@@ -58,6 +58,7 @@ class LoginViewModel : ViewModel(){
 
     fun logoutUser(context: Context){
         viewModelScope.launch {
+            isLoading.value = true
             try{
                 _loginResponse.value = null
                 errorMessage.value = null
@@ -80,6 +81,8 @@ class LoginViewModel : ViewModel(){
                 }
             }catch (e : Exception){
                 errorMessage.value = e.message
+            }finally {
+                isLoading.value = false
             }
         }
     }

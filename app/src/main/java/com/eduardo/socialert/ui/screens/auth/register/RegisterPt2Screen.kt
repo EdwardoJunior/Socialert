@@ -1,5 +1,6 @@
 package com.eduardo.socialert.ui.screens.auth.register
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
@@ -10,13 +11,16 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -75,6 +79,7 @@ private fun ContentHeader() {
     CFormHeader(subtitle = stringResource(id = R.string.form_user_data_title))
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 private fun ContentBody(
     navController: NavController,
@@ -172,30 +177,49 @@ private fun ContentBody(
         }
         Spacer(Modifier.height(10.dp))
 
-        CButton(
-            onClick = {
-                val userRequest = UserRequest(
-                    email = formsInfoViewModel.email,
-                    password = formsInfoViewModel.password,
-                    name = formsInfoViewModel.name,
-                    lastname = formsInfoViewModel.lastname,
-                    phoneNumber = formsInfoViewModel.phoneNumber,
-                    curp = formsInfoViewModel.curp
-                )
+        val isLoading = registerViewModel.isLoading.value
 
-                registerViewModel.registerUser(userRequest)
+        if (isLoading){
+            CircularProgressIndicator()
+        }else {
+            CButton(
+                onClick = {
+                    val userRequest = UserRequest(
+                        email = formsInfoViewModel.email,
+                        password = formsInfoViewModel.password,
+                        name = formsInfoViewModel.name,
+                        lastname = formsInfoViewModel.lastname,
+                        phone = formsInfoViewModel.phoneNumber,
+                        curp = formsInfoViewModel.curp,
+                        gender = formsInfoViewModel.gender
+                    )
 
-                navController.navigate(route = AppScreens.LoginScreen.route)
-            },
-            enabled = isFormValid,
-            text = stringResource(id = R.string.register_button_text)
-        )
-
-        val context = LocalContext.current
-        registerViewModel.registerResponse.value?.let { response ->
-            Toast.makeText(context, response.message, Toast.LENGTH_LONG).show()
+                    registerViewModel.registerUser(userRequest)
+                },
+                enabled = isFormValid,
+                text = stringResource(id = R.string.register_button_text)
+            )
         }
 
+        val message = registerViewModel.registerResponse.value?.message
+
+        LaunchedEffect (message, isLoading){
+            if(!isLoading && message == "Usuario creado exitosamente."){
+                navController.navigate(route = AppScreens.LoginScreen.route)
+                formsInfoViewModel.cleanFields()
+            }
+        }
+
+
+        val context = LocalContext.current
+        val registerResponse by rememberUpdatedState(registerViewModel.registerResponse.value)
+        LaunchedEffect(registerResponse) {
+            registerResponse?.let { response ->
+                if (response.message.isNotEmpty()) {
+                    Toast.makeText(context, response.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
         registerViewModel.error.value.let { errorMessage ->
             if (errorMessage.isNotBlank()) {
                 Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
