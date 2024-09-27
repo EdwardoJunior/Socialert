@@ -2,6 +2,7 @@ package com.eduardo.socialert.ui.screens.home
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -10,12 +11,14 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +43,6 @@ import com.eduardo.socialert.ui.components.CMenuIcon
 import com.eduardo.socialert.ui.viewmodel.auth.LoginViewModel
 import com.eduardo.socialert.ui.viewmodel.report.FormReportRegisterViewModel
 import com.eduardo.socialert.ui.viewmodel.report.RegisterReportViewModel
-import com.eduardo.socialert.ui.viewmodel.report.ReportViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,8 +63,8 @@ fun MenuScreen(
             TopAppBar(
                 title = {
                     Row {
-                        Text("SOCI")
-                        Text("ALERT", color = Color(0XFF2C5FAA))
+                        Text("SOCI", color = MaterialTheme.colorScheme.onBackground)
+                        Text("ALERT")
                     }
                 },
                 actions = {
@@ -113,7 +115,14 @@ fun MenuScreen(
                             }
                         }
                     }
-                }
+                },
+                colors = TopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    scrolledContainerColor = Color.Transparent,
+                    navigationIconContentColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    actionIconContentColor = MaterialTheme.colorScheme.primary
+                )
             )
         },
         bottomBar = { MenuBottomNavigation(menuNavController) },
@@ -191,7 +200,7 @@ fun MenuBottomNavigation(navController: NavController) {
     )
 
     NavigationBar(
-        containerColor = Color.White,
+        containerColor = MaterialTheme.colorScheme.background,
         tonalElevation = 0.dp
     ) {
         val navBarStackEntry by navController.currentBackStackEntryAsState()
@@ -200,13 +209,13 @@ fun MenuBottomNavigation(navController: NavController) {
         menuScreens.forEach { menuScreen ->
             NavigationBarItem(
                 colors = NavigationBarItemColors(
-                    selectedIconColor = Color(0XFF2C5FAA),
-                    selectedTextColor = Color.Black,
-                    selectedIndicatorColor = Color(0XFF96AFD5),
-                    unselectedIconColor = Color.Black,
-                    unselectedTextColor = Color.Black,
-                    disabledIconColor = Color(0XFF2C5FAA),
-                    disabledTextColor = Color.Black
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    selectedTextColor = MaterialTheme.colorScheme.onBackground,
+                    selectedIndicatorColor = MaterialTheme.colorScheme.secondary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onBackground,
+                    unselectedTextColor = MaterialTheme.colorScheme.onBackground,
+                    disabledIconColor = MaterialTheme.colorScheme.primary,
+                    disabledTextColor = MaterialTheme.colorScheme.onBackground
                 ),
                 selected = currentRoute?.hierarchy?.any { it.route == menuScreen.route } == true,
                 onClick = {
@@ -225,7 +234,8 @@ fun MenuBottomNavigation(navController: NavController) {
                         contentDescription = menuScreen.title
                     )
                 },
-                label = { Text(text = menuScreen.title) }
+                label = { Text(text = menuScreen.title) },
+                alwaysShowLabel = false
             )
         }
 

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -39,7 +40,7 @@ fun CTextField(
         modifier = modifier.fillMaxWidth(),
         readOnly = readOnly,
         label = {
-            Text(label, color = Color(0x80444444))
+            Text(label, color = MaterialTheme.colorScheme.onPrimaryContainer)
         },
         trailingIcon = trailingIcon,
         isError = isError,
@@ -49,19 +50,19 @@ fun CTextField(
         maxLines = maxLines,
         shape = RoundedCornerShape(20.dp),
         colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = Color(0xffEAE1E1),
-            focusedContainerColor = Color(0xffEAE1E1),
+            unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            cursorColor = Color(0XFF2C5FAA),
-            focusedTextColor = Color(0xff444444),
-            unfocusedTextColor = Color(0xff444444),
+            cursorColor = MaterialTheme.colorScheme.primary,
+//            focusedTextColor = Color(0xff444444),
+//            unfocusedTextColor = Color(0xff444444),
             errorIndicatorColor = Color.Transparent,
-            errorContainerColor = Color(0xffEAE1E1),
+            errorContainerColor = MaterialTheme.colorScheme.primaryContainer,
             errorTextColor = Color.Red,
             errorSupportingTextColor = Color.Red,
-            selectionColors = TextSelectionColors(handleColor = Color(0XFF2C5FAA), backgroundColor = Color(0X502C5FAA)),
-            errorCursorColor = Color(0XFF2C5FAA)
+            selectionColors = TextSelectionColors(MaterialTheme.colorScheme.primary, backgroundColor = MaterialTheme.colorScheme.secondary),
+            errorCursorColor = MaterialTheme.colorScheme.primary
         ),
     )
 }

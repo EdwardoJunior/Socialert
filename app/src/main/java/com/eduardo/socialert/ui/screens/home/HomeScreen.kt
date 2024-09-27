@@ -100,10 +100,10 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .height(140.dp),
             colors = CardColors(
-                containerColor = Color(0XFF2C5FAA),
-                contentColor = Color.White,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
                 disabledContainerColor = Color(0x9f2C5FAA),
-                disabledContentColor = Color.White
+                disabledContentColor = MaterialTheme.colorScheme.onPrimary
             ),
             shape = RoundedCornerShape(30.dp)
         ) {
@@ -164,10 +164,10 @@ fun HomeScreen(
                 .fillMaxWidth(),
             shape = RoundedCornerShape(30.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0XFF2C5FAA),
-                contentColor = Color.White,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
                 disabledContainerColor = Color(0x9f2C5FAA),
-                disabledContentColor = Color.White
+                disabledContentColor = MaterialTheme.colorScheme.onPrimary
             )
 
         ) {

@@ -109,42 +109,35 @@ private fun ContentBody(navController: NavController, formsInfoViewModel: FormsI
 
         ExposedDropdownMenuBox(
             expanded = isExpanded,
-            onExpandedChange = { isExpanded = !isExpanded }
+            onExpandedChange = { isExpanded = !isExpanded },
         ) {
-            CTextField(
-                value = {if(formsInfoViewModel.gender == "M"){
-                    "Masculino"
-                }else if(formsInfoViewModel.gender == "F"){
-                    "Femenino"
-                }else if(formsInfoViewModel.gender == "N"){
-                    "Prefiero no decirlo"
-                } else {
-                    ""
-                }
-                }.toString(),
+            CTextField( value = when (formsInfoViewModel.gender) {
+                "M" -> "Masculino"
+                "F" -> "Femenino"
+                "N" -> "Prefiero no decirlo"
+                else -> ""
+            },
                 onValueChange = {},
                 readOnly = true,
-                modifier = Modifier.menuAnchor(),
-                label = "Seleccione una opción",
+                modifier = Modifier.menuAnchor().padding(bottom = 10.dp),
+                label = "Género",
                 isError = formsInfoViewModel.genderError.isNotEmpty(),
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
             )
             ExposedDropdownMenu(
                 expanded = isExpanded,
                 onDismissRequest = { isExpanded = false},
-                modifier = Modifier.background(Color(0xffEAE1E1))
+                modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
             ) {
                 formsInfoViewModel.genderOptions.forEachIndexed{index, selectedOption ->
                     if(index != 0) {
                         DropdownMenuItem(
                             text = { Text(selectedOption) },
                             onClick = {
-                                if(selectedOption == "Masculino"){
-                                    formsInfoViewModel.gender = "M"
-                                }else if(selectedOption == "Femenino"){
-                                    formsInfoViewModel.gender = "F"
-                                }else if(selectedOption == "Prefiero no decirlo"){
-                                    formsInfoViewModel.gender = "N"
+                                when (selectedOption){
+                                    "Masculino" -> formsInfoViewModel.gender = "M"
+                                    "Femenino" -> formsInfoViewModel.gender = "F"
+                                    "Prefiero no decirlo" -> formsInfoViewModel.gender = "N"
                                 }
                                 isExpanded = false
                             }
@@ -156,7 +149,7 @@ private fun ContentBody(navController: NavController, formsInfoViewModel: FormsI
         if (formsInfoViewModel.genderError.isNotEmpty()) {
             CTextError(formsInfoViewModel.genderError)
         }
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(10.dp))
 
         CTextField(
             value = formsInfoViewModel.phoneNumber,
@@ -203,7 +196,10 @@ private fun ContentBody(navController: NavController, formsInfoViewModel: FormsI
 
         Spacer(Modifier.height(10.dp))
         CLinkedText(
-            { navController.navigate(route = AppScreens.LoginScreen.route) },
+            {
+                navController.navigate(route = AppScreens.LoginScreen.route)
+                formsInfoViewModel.cleanFields()
+            },
             text = stringResource(id = R.string.go_to_login_link),
             style = MaterialTheme.typography.bodyMedium
         )

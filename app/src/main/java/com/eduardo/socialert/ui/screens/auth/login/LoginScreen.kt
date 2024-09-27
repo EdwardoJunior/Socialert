@@ -10,11 +10,14 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.eduardo.socialert.R
 import com.eduardo.socialert.navigation.AppScreens
-import com.eduardo.socialert.navigation.MenuScreens
 import com.eduardo.socialert.ui.components.CButton
 import com.eduardo.socialert.ui.components.CFormHeader
 import com.eduardo.socialert.ui.components.CIcon
@@ -48,7 +50,7 @@ fun LoginScreen(
     navController: NavController,
     loginFormViewModel: LoginFormViewModel,
     authViewModel: LoginViewModel,
-    context: Context
+    context: Context,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val scrollState = rememberScrollState()

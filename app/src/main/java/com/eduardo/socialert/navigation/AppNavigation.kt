@@ -2,6 +2,7 @@ package com.eduardo.socialert.navigation
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -34,6 +35,7 @@ fun AppNavigation() {
     val context = LocalContext.current
     val sharedPref = context.getSharedPreferences("MyApp", Context.MODE_PRIVATE)
     val token = sharedPref.getString("auth_token", null)
+
 
     NavHost(
         navController = navController,

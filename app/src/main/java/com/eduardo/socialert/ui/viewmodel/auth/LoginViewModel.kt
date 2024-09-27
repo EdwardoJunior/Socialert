@@ -64,7 +64,7 @@ class LoginViewModel : ViewModel(){
                 errorMessage.value = null
 
                 val sharedPref = context.getSharedPreferences("MyApp", Context.MODE_PRIVATE)
-                val token = sharedPref.getString("auth_token", null)
+                var token = sharedPref.getString("auth_token", null)
 
                 token?.let {
                     val response = repository.logoutUser(it)
@@ -75,6 +75,7 @@ class LoginViewModel : ViewModel(){
                             remove("auth_token")
                             apply()
                         }
+                        token = sharedPref.getString("auth_token", null)
                     }else{
                         errorMessage.value = "Error en el cierre de sesión: ${response.message()}"
                     }
